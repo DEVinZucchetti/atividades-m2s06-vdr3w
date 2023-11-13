@@ -75,4 +75,31 @@ class PessoasController extends Controller
             ], 500);
         }
     }
+
+    public function destroy($id)
+    {
+        try {
+            $pessoa = Pessoa::find($id);
+            if ($pessoa) {
+                $pessoa->delete();
+                return response()->json([
+                    'success' => true,
+                    'data' => $pessoa,
+                    'message' => 'Pessoa deletada com sucesso.',
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'data' => null,
+                    'message' => 'Pessoa não encontrada.',
+                ], 400);
+            }
+        } catch (\Exception $exception) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'message' => 'Erro ao excluir a pessoa: ' . $exception->getMessage(),
+            ], 500);
+        }
+    }
 }
