@@ -102,4 +102,31 @@ class PessoasController extends Controller
             ], 500);
         }
     }
+
+    public function show($id)
+    {
+        try {
+            $pessoa = Pessoa::find($id);
+
+            if ($pessoa) {
+                return response()->json([
+                    'success' => true,
+                    'data' => $pessoa,
+                    'message' => "Pessoa encontrada com sucesso.",
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'data' => null,
+                    'message' => "Pessoa não encontrada no banco de dados",
+                ], 404);
+            }
+        } catch (\Exception $exception) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'message' => "Erro no servidor: " . $exception->getMessage(),
+            ], 500);
+        }
+    }
 }
