@@ -43,4 +43,36 @@ class PessoasController extends Controller
             ], 500);
         }
     }
+
+    public function update($id, Request $request)
+    {
+        $dataValidada = $request->validate([
+            'name' => 'required|min:3|max:150',
+            'cpf' => 'nullable|min:11|max:20',
+            'contact' => 'nullable|max:20',
+        ]);
+
+        try {
+            $pessoa = Pessoa::find($id);
+
+            if (empty($pessoa)) {
+                return $this->response('Pessoa não encontrada', null, false, 404);
+            }
+
+            $pessoa->update($request->all());
+
+            $message = "{$pessoa->name} atualizado(a) com sucesso!";
+            return response()->json([
+                'success' => true,
+                'data' => $pessoa,
+                'message' => $message,
+            ], 200);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'message' => "Erro ao cadastrar a pessoa: {$exception->getMessage()}",
+            ], 500);
+        }
+    }
 }
