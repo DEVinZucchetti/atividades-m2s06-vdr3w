@@ -14,6 +14,4 @@ class Pessoa extends Model
         'cpf',
         'contact',
     ];
-
-    protected $hidden = [];
 }
